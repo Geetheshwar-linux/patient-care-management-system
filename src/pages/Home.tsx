@@ -15,19 +15,19 @@ export const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm animate__animated animate__fadeInDown">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600">Patient Care Management System</h1>
           <div>
             <button
               onClick={() => navigate('/login')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors mr-2"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors mr-2 animate__animated animate__bounceIn"
             >
               Login
             </button>
             <button
               onClick={() => navigate('/about-us')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors animate__animated animate__bounceIn"
             >
               Learn More About Us
             </button>
@@ -37,17 +37,17 @@ export const Home: React.FC = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 animate__animated animate__fadeInUp">
           <div className="text-center">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 animate__animated animate__zoomIn">
               Simplifying Care for Bedridden Patients
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8 animate__animated animate__fadeIn">
               A comprehensive platform connecting caretakers, patients, and families with innovative tools for better care management.
             </p>
             <button
               onClick={() => navigate('/login')}
-              className="px-6 py-3 bg-blue-600 text-white text-lg rounded-md hover:bg-blue-700 transition-colors shadow-md"
+              className="px-6 py-3 bg-blue-600 text-white text-lg rounded-md hover:bg-blue-700 transition-colors shadow-md animate__animated animate__pulse"
             >
               Get Started
             </button>
@@ -55,12 +55,12 @@ export const Home: React.FC = () => {
         </section>
 
         {/* Features Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-white rounded-lg shadow-sm">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-white rounded-lg shadow-sm animate__animated animate__fadeInUp">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12 animate__animated animate__zoomIn">
             Key Features
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow animate__animated animate__fadeInLeft">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                 <Activity className="text-blue-600" size={24} />
               </div>
@@ -70,7 +70,7 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow animate__animated animate__fadeInRight">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                 <Users className="text-blue-600" size={24} />
               </div>
@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow animate__animated animate__fadeInLeft">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                 <MessageSquare className="text-blue-600" size={24} />
               </div>
@@ -96,7 +96,7 @@ export const Home: React.FC = () => {
               </button>
             </div>
 
-            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+            <div className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow animate__animated animate__fadeInRight">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                 <UserCheck className="text-blue-600" size={24} />
               </div>
@@ -109,12 +109,12 @@ export const Home: React.FC = () => {
         </section>
 
         {/* How It Works Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate__animated animate__fadeInUp">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12 animate__animated animate__zoomIn">
             How It Works
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
+            <div className="text-center animate__animated animate__fadeInLeft">
               <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 1
               </div>
@@ -124,7 +124,7 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="text-center">
+            <div className="text-center animate__animated animate__fadeInUp">
               <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 2
               </div>
@@ -134,7 +134,7 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="text-center">
+            <div className="text-center animate__animated animate__fadeInRight">
               <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
                 3
               </div>
@@ -147,7 +147,7 @@ export const Home: React.FC = () => {
         </section>
       </main>
 
-      <footer className="bg-gray-800 text-white py-8">
+      <footer className="bg-gray-800 text-white py-8 animate__animated animate__fadeInUp">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center">
             &copy; {new Date().getFullYear()} Patient Care Management System. All rights reserved.
