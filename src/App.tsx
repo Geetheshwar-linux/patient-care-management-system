@@ -5,6 +5,7 @@ import { AdminDashboard } from './pages/admin/Dashboard';
 import { CaretakerDashboard } from './pages/caretaker/Dashboard';
 import { FamilyDashboard } from './pages/family/Dashboard';
 import { SignLanguageConverter } from './pages/SignLanguageConverter';
+import { AboutUs } from './pages/AboutUs';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-language" element={<SignLanguageConverter />} />
+          <Route path="/about-us" element={<AboutUs />} />
           
           <Route path="/admin" element={
             <ProtectedRoute role="admin">

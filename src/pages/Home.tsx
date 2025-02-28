@@ -18,12 +18,20 @@ export const Home: React.FC = () => {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600">Patient Care Management System</h1>
-          <button
-            onClick={() => navigate('/login')}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Login
-          </button>
+          <div>
+            <button
+              onClick={() => navigate('/login')}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors mr-2"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => navigate('/about-us')}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Learn More About Us
+            </button>
+          </div>
         </div>
       </header>
 

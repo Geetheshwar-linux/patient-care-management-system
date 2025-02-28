@@ -40,6 +40,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <MessageSquare className="mr-3" size={20} />
             Manage Tasks
           </a>
+          <a href="/about-us" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Users className="mr-3" size={20} />
+            About Us
+          </a>
         </nav>
       </div>
       <div className="flex-1 flex flex-col">
@@ -49,8 +53,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               <Menu size={24} />
             </button>
             <h1 className="text-2xl font-bold text-blue-600">Patient Care Management System</h1>
-            <button onClick={logout} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-              <LogOut size={20} />
+            <button onClick={logout} className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+              <LogOut size={20} className="mr-2" />
               Logout
             </button>
           </div>
