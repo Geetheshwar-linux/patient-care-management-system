@@ -4,10 +4,13 @@ import { LogOut, Home, Users, Bell, MessageSquare } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, logout } = useAuth();
+  const { user, logout, testLogin } = useAuth(); // Include testLogin in destructuring
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    testLogin(); // Call testLogin to simulate login
+
     if (!user) {
       navigate('/login');
     }

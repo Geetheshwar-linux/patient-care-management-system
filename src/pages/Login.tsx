@@ -13,7 +13,7 @@ export const Login: React.FC = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/');
+      navigate('/'); // Redirect to home page after successful login
     } catch (err) {
       setError('Invalid credentials');
     }
@@ -55,7 +55,7 @@ export const Login: React.FC = () => {
           </button>
         </form>
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/')} // Always redirect to home page
           className="mt-4 w-full py-2 px-4 bg-gray-700 hover:bg-gray-600 rounded-md text-white font-semibold focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
         >
           Back to Home

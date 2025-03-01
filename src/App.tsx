@@ -19,7 +19,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} /> {/* Ensure home page is displayed on startup */}
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-language" element={<SignLanguageConverter />} />
@@ -67,7 +67,8 @@ function App() {
                 <FamilyDashboard />
               </Layout>
             </ProtectedRoute>
-          } />
+          } /> {/* Ensure the path is correct */}
+
         </Routes>
       </Router>
     </AuthProvider>

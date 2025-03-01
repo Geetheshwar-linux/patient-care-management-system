@@ -12,6 +12,7 @@ type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  testLogin: () => Promise<void>; // Added testLogin to the type
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -56,8 +57,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   };
 
+  // Temporary login test function
+  const testLogin = async () => {
+    await login('admin@example.com', 'admin123');
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, testLogin }}>
       {children}
     </AuthContext.Provider>
   );
