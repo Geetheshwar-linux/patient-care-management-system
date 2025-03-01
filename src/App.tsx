@@ -20,9 +20,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-language" element={<SignLanguageConverter />} />
-          <Route path="/about-us" element={<AboutUs />} />
           
           <Route path="/admin" element={
             <ProtectedRoute role="admin">

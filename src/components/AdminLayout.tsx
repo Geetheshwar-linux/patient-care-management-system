@@ -15,7 +15,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <div className="min-h-screen flex bg-gray-900 text-white">
-      <div className="fixed top-0 left-0 w-64 bg-gray-800 shadow-lg flex flex-col justify-between">
+      <div className="fixed top-0 left-0 w-64 bg-gray-800 shadow-lg flex flex-col justify-between h-full">
         <div>
           <div className="p-4 border-b border-gray-700">
             <h2 className="text-xl font-bold text-blue-400">Admin Dashboard</h2>
@@ -39,8 +39,8 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
             </button>
           </nav>
         </div>
-        <div className="p-4 border-t border-gray-700 flex items-center justify-between">
-          <button onClick={logout} className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        <div className="p-4 border-t border-gray-700 mt-auto">
+          <button onClick={logout} className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full">
             <LogOut size={20} className="mr-2" />
             Logout
           </button>

@@ -59,25 +59,25 @@ export const Tasks: React.FC = () => {
   );
 
   return (
-    <div className="bg-gray-900 text-white p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="bg-gray-900 text-white p-4 ml-16 h-[calc(100vh-100px)]">
+      <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-300">Manage Tasks</h1>
+        <div className="relative w-full sm:w-64 mb-4">
+          <input
+            type="text"
+            className="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Search tasks..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
           <Plus size={16} className="mr-1" />
           Add Task
         </button>
       </div>
-      <div className="relative w-full sm:w-64 mb-6">
-        <input
-          type="text"
-          className="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          placeholder="Search tasks..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className="bg-gray-800 rounded-lg shadow overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-gray-800 rounded-lg shadow overflow-hidden h-[calc(100vh-200px)] w-[calc(100vw-400px)]">
+        <div className="overflow-x-auto h-full">
           <table className="min-w-full divide-y divide-gray-700">
             <thead className="bg-gray-700">
               <tr>

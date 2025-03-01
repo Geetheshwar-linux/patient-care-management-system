@@ -21,13 +21,13 @@ export const Home: React.FC = () => {
           <div>
             <button
               onClick={() => navigate('/login')}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-105 hover:shadow-outline duration-300"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-105 hover:shadow-outline duration-300 mr-2"
             >
               Login
             </button>
             <button
               onClick={() => navigate('/about-us')}
-              className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-105 hover:shadow-outline duration-300"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-105 hover:shadow-outline duration-300"
             >
               About Us
             </button>
@@ -92,7 +92,7 @@ export const Home: React.FC = () => {
                 onClick={() => navigate('/sign-language')}
                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-105 hover:shadow-outline duration-300"
               >
-                Try Now
+                Try Now For Free
               </button>
             </div>
 
