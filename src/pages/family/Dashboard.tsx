@@ -73,7 +73,7 @@ export const FamilyDashboard: React.FC = () => {
               <User size={24} />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-300">Assigned Patients</h3>
+              <h3 className="text-lg font-semibold text-gray-300">Assigned Caretakers</h3>
               <p className="text-3xl font-bold text-blue-600">{MOCK_PATIENTS.length}</p>
             </div>
           </div>
