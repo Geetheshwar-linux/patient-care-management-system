@@ -140,7 +140,7 @@ export const CaretakerDashboard: React.FC = () => {
             }`}
             onClick={() => setSelectedPatient('all')}
           >
-            <span className="text-gray-600 dark:text-gray-400">View All Patients</span>
+            <span className="text-gray-600 dark:text-gray-400">View All Patient Details</span>
           </div>
         </div>
       </div>
@@ -226,7 +226,7 @@ export const CaretakerDashboard: React.FC = () => {
               onClick={() => window.location.href = '/sign-language'}
               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
             >
-              Try Now
+              Use it
             </button>
           </div>
         </div>

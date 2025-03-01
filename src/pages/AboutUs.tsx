@@ -16,14 +16,14 @@ const teamMembers = [
     },
   },
   {
-    name: 'Jane Smith',
+    name: 'Sai Bhavana V',
     role: 'CTO',
-    bio: 'Jane leads our technology team, ensuring our platform is secure and scalable.',
-    image: 'https://via.placeholder.com/150',
+    bio: 'Reg No : 99220045391. ECE',
+    image: 'images/SaiBhavana.jpg',
     social: {
-      instagram: 'https://instagram.com/janesmith',
-      github: 'https://github.com/janesmith',
-      linkedin: 'https://linkedin.com/in/janesmith',
+      instagram: 'https://instagram.com/vsb_chinni_2005',
+      github: 'https://github.com',
+      linkedin: 'https://linkedin.com/in/Vaddi%20saibhavana',
     },
   },
   {

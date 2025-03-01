@@ -8,6 +8,13 @@ const MOCK_CARETAKERS = [
   { id: '3', name: 'Robert Johnson', email: 'robert@example.com', phone: '+1122334455', patients: 1 },
 ];
 
+interface PatientDocuments {
+  prescriptions: File[];
+  caseSheets: File[];
+  labReports: File[];
+  otherDocuments: File[];
+}
+
 interface Patient {
   id: string;
   name: string;
@@ -17,6 +24,7 @@ interface Patient {
   familyContact: string;
   familyRelation: string;
   familyPhone: string;
+  documents?: PatientDocuments;
 }
 
 const MOCK_PATIENTS: Patient[] = [
@@ -42,6 +50,12 @@ export const Patients: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [caretakerSearchTerm, setCaretakerSearchTerm] = useState('');
+  const [selectedPatientDocs, setSelectedPatientDocs] = useState<PatientDocuments>({
+    prescriptions: [],
+    caseSheets: [],
+    labReports: [],
+    otherDocuments: []
+  });
 
   interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLSelectElement> {}
 
@@ -51,7 +65,7 @@ export const Patients: React.FC = () => {
   };
 
   const handleAddPatient = () => {
-    setShowForm(true);
+    setShowForm(!showForm); // Toggle form visibility
   };
 
   const handleSaveNewPatient = () => {
@@ -83,6 +97,77 @@ export const Patients: React.FC = () => {
     setPatients(patients.filter(patient => patient.id !== patientId));
   };
 
+  const handleDocumentUpload = (type: keyof PatientDocuments, files: FileList | null) => {
+    if (files) {
+      setSelectedPatientDocs(prev => ({
+        ...prev,
+        [type]: [...prev[type], ...Array.from(files)]
+      }));
+    }
+  };
+
+  const renderDocumentsSection = () => (
+    <div className="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
+      <h2 className="text-xl font-bold text-gray-300 mb-4">Patient Documents</h2>
+      <div className="grid grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Prescriptions</label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleDocumentUpload('prescriptions', e.target.files)}
+            className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+            accept=".pdf,.jpg,.png"
+          />
+          {selectedPatientDocs.prescriptions.map((file, index) => (
+            <div key={index} className="text-sm text-gray-400 mt-1">{file.name}</div>
+          ))}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Case Sheets</label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleDocumentUpload('caseSheets', e.target.files)}
+            className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+            accept=".pdf,.doc,.docx"
+          />
+          {selectedPatientDocs.caseSheets.map((file, index) => (
+            <div key={index} className="text-sm text-gray-400 mt-1">{file.name}</div>
+          ))}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Lab Reports</label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleDocumentUpload('labReports', e.target.files)}
+            className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+            accept=".pdf,.jpg,.png"
+          />
+          {selectedPatientDocs.labReports.map((file, index) => (
+            <div key={index} className="text-sm text-gray-400 mt-1">{file.name}</div>
+          ))}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">Other Documents</label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => handleDocumentUpload('otherDocuments', e.target.files)}
+            className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+          />
+          {selectedPatientDocs.otherDocuments.map((file, index) => (
+            <div key={index} className="text-sm text-gray-400 mt-1">{file.name}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   const filteredPatients = patients.filter(
     patient => patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
               patient.condition.toLowerCase().includes(searchTerm.toLowerCase())
@@ -96,9 +181,14 @@ export const Patients: React.FC = () => {
     <div className="bg-gray-900 text-white p-4 ml-16 h-[calc(100vh-100px)]">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-300">Manage Patients</h1>
-        <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={handleAddPatient}>
+        <button 
+          className={`flex items-center px-3 py-1 ${
+            showForm ? 'bg-gray-600' : 'bg-blue-600'
+          } text-white rounded hover:bg-blue-700`} 
+          onClick={handleAddPatient}
+        >
           <Plus size={16} className="mr-1" />
-          Add Patient
+          {showForm ? 'Close Form' : 'Add Patient'}
         </button>
       </div>
       {showForm && (
@@ -186,6 +276,7 @@ export const Patients: React.FC = () => {
                 className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
+            {renderDocumentsSection()}
             <div className="flex justify-end">
               <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors mr-2" onClick={handleSaveNewPatient}>
                 Save

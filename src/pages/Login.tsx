@@ -13,9 +13,18 @@ export const Login: React.FC = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/'); // Redirect to home page after successful login
+      const userRole = JSON.parse(localStorage.getItem('user') || '{}').role; // Get the role of the logged-in user
+
+      if (userRole === 'superuser') {
+        navigate('/admin/dashboard'); // Redirect to superuser dashboard
+      } else {
+        navigate('/'); // Redirect to home page for other users
+      }
+
     } catch (err) {
-      setError('Invalid credentials');
+      setError((err as Error).message || 'Invalid credentials'); // Set error message from Supabase
+
+
     }
   };
 

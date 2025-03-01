@@ -23,6 +23,7 @@ interface Task {
   prescription?: File | undefined; // Added prescription field
 }
 
+
 const MOCK_PATIENTS: Patient[] = [
   { id: '1', name: 'Alice Brown', age: 65, condition: 'Post-stroke recovery', caretakerId: '1' },
   { id: '2', name: 'Bob Wilson', age: 72, condition: 'Parkinson\'s disease', caretakerId: '1' },
@@ -93,6 +94,12 @@ export const Tasks: React.FC = (): JSX.Element => {
     prescription: undefined as File | undefined // Initialize prescription
   });
   const [showForm, setShowForm] = useState(false);
+  const [showScheduleForm, setShowScheduleForm] = useState(false);
+  const [newSchedule, setNewSchedule] = useState({
+    patientId: '',
+    frequency: 'daily' as 'daily' | 'weekly',
+    tasks: [{ title: '', description: '', time: '', priority: 'medium' }]
+  });
 
   const filteredTasks = tasks.filter(
     task => task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -107,7 +114,21 @@ export const Tasks: React.FC = (): JSX.Element => {
   };
 
   const handleAddTask = (): void => {
-    setShowForm(true);
+    if (showForm) {
+      setShowForm(false);
+    } else {
+      setShowForm(true);
+      setShowScheduleForm(false);
+    }
+  };
+
+  const handleAddSchedule = (): void => {
+    if (showScheduleForm) {
+      setShowScheduleForm(false);
+    } else {
+      setShowScheduleForm(true);
+      setShowForm(false);
+    }
   };
 
   const handleSaveNewTask = (): void => {
@@ -141,35 +162,111 @@ export const Tasks: React.FC = (): JSX.Element => {
     setTasks(tasks.filter(task => task.id !== taskId));
   };
 
+
+  const handleAddScheduleTask = () => {
+    setNewSchedule({
+      ...newSchedule,
+      tasks: [...newSchedule.tasks, { title: '', description: '', time: '', priority: 'medium' }]
+    });
+  };
+
+  const handleRemoveScheduleTask = (index: number) => {
+    setNewSchedule({
+      ...newSchedule,
+      tasks: newSchedule.tasks.filter((_, i) => i !== index)
+    });
+  };
+
+  const handleScheduleTaskChange = (index: number, field: string, value: string) => {
+    setNewSchedule({
+      ...newSchedule,
+      tasks: newSchedule.tasks.map((task, i) => {
+        if (i === index) {
+          return { ...task, [field]: value };
+        }
+        return task;
+      })
+    });
+  };
+
+  const handleSaveSchedule = () => {
+    // Convert schedule to individual tasks
+    const scheduledTasks = newSchedule.tasks.map((task, index) => ({
+      id: String(tasks.length + index + 1),
+      patientId: newSchedule.patientId,
+      title: task.title,
+      description: task.description,
+      dueDate: new Date(), // Set appropriate date based on schedule
+      status: 'pending',
+      priority: task.priority
+    }));
+
+    setTasks([...tasks, ...scheduledTasks]);
+    setShowScheduleForm(false);
+    setNewSchedule({
+      patientId: '',
+      frequency: 'daily',
+      tasks: [{ title: '', description: '', time: '', priority: 'medium' }]
+    });
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const time = e.target.value;
+    const date = new Date(`2000-01-01T${time}`);
+    const formattedTime = date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+    handleScheduleTaskChange(index, 'time', formattedTime);
+  };
+
   return (
     <div className="bg-gray-900 text-white p-4 ml-16 h-[calc(100vh-100px)]">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-300">Manage Tasks</h1>
-        <div className="relative w-full sm:w-64 mb-4">
-          <input
-            type="text"
-            className="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            placeholder="Search tasks..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <input
+              type="text"
+              className="w-64 pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-gray-300"
+              placeholder="Search tasks..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <button 
+            className={`flex items-center px-4 py-2 ${
+              showForm ? 'bg-gray-600' : 'bg-blue-600'
+            } text-white rounded-md hover:bg-blue-700 transition-colors`}
+            onClick={handleAddTask}
+          >
+            <Plus size={16} className="mr-2" />
+            {showForm ? 'Close Form' : 'Add Task'}
+          </button>
+          <button 
+            className={`flex items-center px-4 py-2 ${
+              showScheduleForm ? 'bg-gray-600' : 'bg-green-600'
+            } text-white rounded-md hover:bg-green-700 transition-colors`}
+            onClick={handleAddSchedule}
+          >
+            <Plus size={16} className="mr-2" />
+            {showScheduleForm ? 'Close Schedule' : 'Add Schedule'}
+          </button>
         </div>
-        <button className="flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700" onClick={handleAddTask}>
-          <Plus size={16} className="mr-1" />
-          Add Task
-        </button>
       </div>
+
       {showForm && (
-        <div className="bg-gray-800 p-4 rounded-lg shadow-md mb-4">
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
           <h2 className="text-xl font-bold text-gray-300 mb-4">Add New Task</h2>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-300">Patient</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Patient</label>
               <select
                 name="patientId"
                 value={newTask.patientId}
                 onChange={handleInputChange}
-                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="">Select Patient</option>
                 {MOCK_PATIENTS.map(patient => (
@@ -177,50 +274,56 @@ export const Tasks: React.FC = (): JSX.Element => {
                 ))}
               </select>
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-300">Title</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
               <input
                 type="text"
                 name="title"
                 value={newTask.title}
                 onChange={handleInputChange}
-                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300">Description</label>
+
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
               <textarea
                 name="description"
                 value={newTask.description}
                 onChange={handleInputChange}
-                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                rows={3}
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-300">Due Date</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Due Date</label>
               <input
                 type="datetime-local"
                 name="dueDate"
                 value={newTask.dueDate}
                 onChange={handleInputChange}
-                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-300">Priority</label>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Priority</label>
               <select
                 name="priority"
                 value={newTask.priority}
                 onChange={handleInputChange}
-                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 <option value="high">High</option>
                 <option value="medium">Medium</option>
                 <option value="low">Low</option>
               </select>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300">Doctor's Prescription</label>
+
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">Doctor's Prescription</label>
               <input
                 type="file"
                 name="prescription"
@@ -229,20 +332,124 @@ export const Tasks: React.FC = (): JSX.Element => {
                     setNewTask({ ...newTask, prescription: e.target.files[0] });
                   }
                 }}
-                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
-            <div className="flex justify-end">
-              <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors mr-2" onClick={handleSaveNewTask}>
-                Save
+
+            <div className="col-span-2 flex justify-end space-x-4">
+              <button 
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                onClick={handleSaveNewTask}
+              >
+                Save Task
               </button>
-              <button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors" onClick={() => setShowForm(false)}>
+              <button 
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                onClick={() => setShowForm(false)}
+              >
                 Cancel
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {showScheduleForm && (
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
+          <h2 className="text-xl font-bold text-gray-300 mb-4">Create Schedule</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Patient</label>
+              <select
+                value={newSchedule.patientId}
+                onChange={(e) => setNewSchedule({ ...newSchedule, patientId: e.target.value })}
+                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+              >
+                <option value="">Select Patient</option>
+                {MOCK_PATIENTS.map(patient => (
+                  <option key={patient.id} value={patient.id}>{patient.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Frequency</label>
+              <select
+                value={newSchedule.frequency}
+                onChange={(e) => setNewSchedule({ ...newSchedule, frequency: e.target.value as 'daily' | 'weekly' })}
+                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+              >
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+              </select>
+            </div>
+
+            <div className="col-span-2">
+              <h3 className="text-lg font-medium text-gray-300 mb-4">Schedule Tasks</h3>
+              {newSchedule.tasks.map((task, index) => (
+                <div key={index} className="grid grid-cols-2 gap-4 mb-4 p-4 border border-gray-700 rounded-lg">
+                  <input
+                    type="text"
+                    placeholder="Task Title"
+                    value={task.title}
+                    onChange={(e) => handleScheduleTaskChange(index, 'title', e.target.value)}
+                    className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+                  />
+                  <input
+                    type="time"
+                    value={task.time}
+                    onChange={(e) => handleTimeChange(e, index)}
+                    className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+                  />
+                  <textarea
+                    placeholder="Description"
+                    value={task.description}
+                    onChange={(e) => handleScheduleTaskChange(index, 'description', e.target.value)}
+                    className="col-span-2 block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+                  />
+                  <select
+                    value={task.priority}
+                    onChange={(e) => handleScheduleTaskChange(index, 'priority', e.target.value)}
+                    className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md bg-gray-800 text-gray-300"
+                  >
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                  <button
+                    onClick={() => handleRemoveScheduleTask(index)}
+                    className="bg-red-600 text-white rounded-md px-4 py-2 hover:bg-red-700"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={handleAddScheduleTask}
+                className="w-full bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 mt-4"
+              >
+                Add Another Task
+              </button>
+            </div>
+
+            <div className="col-span-2 flex justify-end space-x-4">
+              <button 
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                onClick={handleSaveSchedule}
+              >
+                Save Schedule
+              </button>
+              <button 
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                onClick={() => setShowScheduleForm(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-gray-800 rounded-lg shadow overflow-hidden h-[calc(100vh-200px)] w-[calc(100vw-400px)]">
         <div className="overflow-x-auto h-full">
           <table className="min-w-full divide-y divide-gray-700">
