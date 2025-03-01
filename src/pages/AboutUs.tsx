@@ -4,14 +4,15 @@ import { Instagram, Github, Linkedin } from 'lucide-react';
 
 const teamMembers = [
   {
-    name: 'John Doe',
-    role: 'CEO',
-    bio: 'John is the visionary behind our company with over 20 years of experience in healthcare management.',
-    image: 'https://via.placeholder.com/150',
+    name: 'Geetheshwar G',
+    role: 'Cheif Architect',
+    bio: 'Reg No : 99220040368. CSE',
+    image: 'images/geetheshwar.jpg',
+
     social: {
-      instagram: 'https://instagram.com/johndoe',
-      github: 'https://github.com/johndoe',
-      linkedin: 'https://linkedin.com/in/johndoe',
+      instagram: 'https://www.instagram.com/geetheshwarg/',
+      github: 'https://github.com/Geetheshwar-linux',
+      linkedin: 'https://www.linkedin.com/in/geetheshwar-g-4b1b3b1b3/',
     },
   },
   {
@@ -82,10 +83,11 @@ export const AboutUs: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers.map((member) => (
             <div key={member.name} className="bg-gray-800 rounded-lg shadow p-6 animate__animated animate__zoomIn relative group">
-              <img src={member.image} alt={member.name} className="w-32 h-32 rounded-full mx-auto mb-4 animate__animated animate__rotateIn" />
+              <img src={member.image} className="w-32 h-32 rounded-full mx-auto mb-4 animate__animated animate__rotateIn" />
               <h2 className="text-xl font-semibold text-white text-center">{member.name}</h2>
               <p className="text-gray-400 text-center">{member.role}</p>
-              <p className="text-gray-400 mt-4">{member.bio}</p>
+              <p className="text-gray-400 mt-4 text-center">{member.bio}</p>
+
               <div className="absolute inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="flex space-x-4">
                   <a href={member.social.instagram} target="_blank" rel="noopener noreferrer">
