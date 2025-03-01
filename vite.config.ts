@@ -7,4 +7,8 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  server: {
+    host: '0.0.0.0', // Ensure it's accessible
+    port: Number(process.env.PORT) || 5173, // Use Render's assigned port
+  }
 });
