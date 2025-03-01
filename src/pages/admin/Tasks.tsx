@@ -114,38 +114,40 @@ export const Tasks: React.FC = () => {
                       <div className="text-sm text-gray-300">{patient?.name || 'Unknown'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {format(task.dueDate, 'MMM d, yyyy h:mm a')}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${task.priority === 'high' ? 'bg-red-200 text-red-900' : 
-                        task.priority === 'medium' ? 'bg-yellow-200 text-yellow-900' : 
-                        'bg-green-200 text-green-900'}`}>
-                      {task.priority}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${task.status === 'completed' ? 'bg-green-200 text-green-900' : 
-                        task.status === 'in-progress' ? 'bg-blue-200 text-blue-900' : 
-                        'bg-gray-200 text-gray-900'}`}>
-                      {task.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-blue-400 hover:text-blue-500 mr-3">
-                      <Edit size={16} />
-                    </button>
-                    <button className="text-red-400 hover:text-red-500">
-                      <Trash2 size={16} />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      <div className="text-sm text-gray-300">
+                        {format(task.dueDate, 'MMM d, yyyy h:mm a')}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        ${task.priority === 'high' ? 'bg-red-200 text-red-900' : 
+                          task.priority === 'medium' ? 'bg-yellow-200 text-yellow-900' : 
+                          'bg-green-200 text-green-900'}`}>
+                        {task.priority}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        ${task.status === 'completed' ? 'bg-green-200 text-green-900' : 
+                          task.status === 'in-progress' ? 'bg-blue-200 text-blue-900' : 
+                          'bg-gray-200 text-gray-900'}`}>
+                        {task.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <button className="text-blue-400 hover:text-blue-500 mr-3">
+                        <Edit size={16} />
+                      </button>
+                      <button className="text-red-400 hover:text-red-500">
+                        <Trash2 size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
