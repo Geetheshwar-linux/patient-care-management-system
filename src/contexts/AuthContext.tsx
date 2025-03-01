@@ -38,15 +38,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     // In a real app, this would be an API call
-    const foundUser = MOCK_USERS.find(
-      (u) => u.email === email && u.password === password
-    );
+    const foundUser = MOCK_USERS.find((u) => u.email === email && u.password === password);
 
     if (!foundUser) {
       throw new Error('Invalid credentials');
     }
 
-    const { password: _, ...userWithoutPassword } = foundUser;
+    const { password: _, ...userWithoutPassword } = foundUser; // This line is fine as it removes the password
     setUser(userWithoutPassword as User);
     setIsAuthenticated(true);
     localStorage.setItem('user', JSON.stringify(userWithoutPassword));
