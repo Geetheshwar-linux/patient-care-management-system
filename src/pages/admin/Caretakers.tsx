@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Save, X } from 'lucide-react';
 
-// Mock data
+// Mock data  
 const MOCK_CARETAKERS = [
   { id: '1', name: 'John Doe', email: 'john@example.com', phone: '+1234567890', patients: 3 },
   { id: '2', name: 'Jane Smith', email: 'jane@example.com', phone: '+0987654321', patients: 2 },
