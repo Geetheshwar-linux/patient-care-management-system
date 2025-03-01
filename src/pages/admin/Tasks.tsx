@@ -20,6 +20,7 @@ interface Task {
   dueDate: Date;
   status: string;
   priority: string;
+  prescription?: File | undefined; // Added prescription field
 }
 
 const MOCK_PATIENTS: Patient[] = [
@@ -31,6 +32,15 @@ const MOCK_PATIENTS: Patient[] = [
 ];
 
 const MOCK_TASKS: Task[] = [
+  { 
+    id: '5', 
+    patientId: '3', 
+    title: 'Evening check-up', 
+    description: 'Check vital signs and record in the system',
+    dueDate: new Date(2025, 5, 15, 18, 0),
+    status: 'pending',
+    priority: 'medium'
+  },
   { 
     id: '1', 
     patientId: '1', 
@@ -69,9 +79,9 @@ const MOCK_TASKS: Task[] = [
   },
 ];
 
-export const Tasks: React.FC = () => {
+export const Tasks: React.FC = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [tasks, setTasks] = useState(MOCK_TASKS);
+  const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [newTask, setNewTask] = useState({
     patientId: '',
@@ -79,7 +89,8 @@ export const Tasks: React.FC = () => {
     description: '',
     dueDate: '',
     status: 'pending',
-    priority: 'medium'
+    priority: 'medium',
+    prescription: undefined as File | undefined // Initialize prescription
   });
   const [showForm, setShowForm] = useState(false);
 
@@ -90,40 +101,43 @@ export const Tasks: React.FC = () => {
 
   interface InputChangeEvent extends React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement> {}
 
-  const handleInputChange = (e: InputChangeEvent) => {
+  const handleInputChange = (e: InputChangeEvent): void => {
     const { name, value } = e.target;
     setNewTask({ ...newTask, [name]: value });
   };
 
-  const handleAddTask = () => {
+  const handleAddTask = (): void => {
     setShowForm(true);
   };
 
-  const handleSaveNewTask = () => {
-    setTasks([...tasks, { ...newTask, id: String(tasks.length + 1), dueDate: new Date(newTask.dueDate) }]);
-    setNewTask({
-      patientId: '',
-      title: '',
-      description: '',
-      dueDate: '',
-      status: 'pending',
-      priority: 'medium'
-    });
-    setShowForm(false);
+  const handleSaveNewTask = (): void => {
+    if (newTask.title && newTask.patientId) {
+      setTasks([...tasks, { ...newTask, id: String(tasks.length + 1), dueDate: new Date(newTask.dueDate), prescription: newTask.prescription || undefined }]);
+      setNewTask({
+        patientId: '',
+        title: '',
+        description: '',
+        dueDate: '',
+        status: 'pending',
+        priority: 'medium',
+        prescription: undefined // Reset prescription
+      });
+      setShowForm(false);
+    }
   };
 
-  const handleEditTask = (task: Task) => {
+  const handleEditTask = (task: Task): void => {
     setEditingTask(task);
   };
 
-  const handleSaveTask = () => {
+  const handleSaveTask = (): void => {
     if (editingTask) {
       setTasks(tasks.map(task => task.id === editingTask.id ? editingTask : task));
     }
     setEditingTask(null);
   };
 
-  const handleDeleteTask = (taskId: string) => {
+  const handleDeleteTask = (taskId: string): void => {
     setTasks(tasks.filter(task => task.id !== taskId));
   };
 
@@ -206,17 +220,17 @@ export const Tasks: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300">Status</label>
-              <select
-                name="status"
-                value={newTask.status}
-                onChange={handleInputChange}
-                className="block w-full pl-3 pr-10 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              >
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
-                <option value="completed">Completed</option>
-              </select>
+              <label className="block text-sm font-medium text-gray-300">Doctor's Prescription</label>
+              <input
+                type="file"
+                name="prescription"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setNewTask({ ...newTask, prescription: e.target.files[0] });
+                  }
+                }}
+                className="block w-full pl-3 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 text-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              />
             </div>
             <div className="flex justify-end">
               <button className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors mr-2" onClick={handleSaveNewTask}>
@@ -256,7 +270,7 @@ export const Tasks: React.FC = () => {
             </thead>
             <tbody className="bg-gray-800 divide-y divide-gray-700">
               {filteredTasks.map((task) => {
-                const patient = MOCK_PATIENTS.find(p => p.id === task.patientId);
+                const patient = MOCK_PATIENTS.find((p: Patient) => p.id === task.patientId);
                 return (
                   <tr key={task.id}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -323,27 +337,6 @@ export const Tasks: React.FC = () => {
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {editingTask?.id === task.id ? (
-                        <select
-                          name="status"
-                          value={editingTask.status}
-                          onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}
-                          className="block w-full pl-2 pr-3 py-2 border border-gray-700 rounded-md leading-5 bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="in-progress">In Progress</option>
-                          <option value="completed">Completed</option>
-                        </select>
-                      ) : (
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${task.status === 'completed' ? 'bg-green-200 text-green-900' : 
-                            task.status === 'in-progress' ? 'bg-blue-200 text-blue-900' : 
-                            'bg-gray-200 text-gray-900'}`}>
-                          {task.status}
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       {editingTask?.id === task.id ? (
                         <>
                           <button className="text-green-400 hover:text-green-500 mr-3" onClick={handleSaveTask}>

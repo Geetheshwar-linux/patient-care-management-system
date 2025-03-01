@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { AdminDashboard } from './pages/admin/Dashboard';
-import { Caretakers } from './pages/admin/Caretakers';
+import { Caretakers } from './pages/admin/Caretakers'; // Ensure correct import
 import { Patients } from './pages/admin/Patients';
 import { Tasks } from './pages/admin/Tasks';
 import { CaretakerDashboard } from './pages/caretaker/Dashboard';
@@ -31,7 +31,7 @@ function App() {
               </AdminLayout>
             </ProtectedRoute>
           } />
-          <Route path="/admin/caretakers" element={
+          <Route path="/admin/caretakers" element={ // Ensure the path is correct
             <ProtectedRoute role="admin">
               <AdminLayout>
                 <Caretakers />
