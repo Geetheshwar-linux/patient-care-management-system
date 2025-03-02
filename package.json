@@ -15,7 +15,7 @@
     "@mediapipe/drawing_utils": "0.3.1675466124",
     "@mediapipe/hands": "^0.4.1675469240",
     "@tensorflow/tfjs": "^4.17.0",
-    "@supabase/supabase-js": "^2.0.0", 
+    "@supabase/supabase-js": "^2..49.1", 
     "vite": "^4.0.0"
     "date-fns": "^3.3.1",
     "lucide-react": "^0.344.0",
