@@ -8,8 +8,8 @@ type User = {
   role: 'admin' | 'caretaker' | 'family' | 'superuser'; // Added superuser role
 };
 
-const SUPABASE_URL = 'your_supabase_url'; // Replace with your Supabase URL
-const SUPABASE_ANON_KEY = 'your_supabase_anon_key'; // Replace with your Supabase anon key
+const SUPABASE_URL = 'https://dsckauwzrxzrfkdoeetc.supabase.co'; // Replace with your Supabase URL
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzY2thdXd6cnh6cmZrZG9lZXRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA3NDc2MDYsImV4cCI6MjA1NjMyMzYwNn0.l6B4MKvmfrGQlqDZZ2B6WL3pMU5U5A9Tvqt80y0kLlk'; // Replace with your Supabase anon key
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); // Initialize Supabase client
 
 type AuthContextType = {
